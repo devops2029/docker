@@ -1,3 +1,23 @@
+permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.45/containers/json": dial unix /var/run/docker.sock: connect: permission denied
+
+The Cause:
+By default, the Docker daemon runs with elevated privileges (root) and the Docker socket (/var/run/docker.sock) is owned by the root user and the docker group. If your user is not a member of the docker group or does not have the appropriate permissions, it cannot interact with the Docker daemon.
+
+Solutions:
+1. Add Your User to the docker Group
+One of the simplest solutions is to add your user to the docker group, which will give it the necessary permissions to access Docker resources.
+
+To add your user to the docker group, run:
+
+bash
+Copy code
+sudo usermod -aG docker $(whoami)
+This command adds your current user to the docker group.
+
+After running this command, log out and log back in for the changes to take effect. You can also run the following command to apply the group changes without logging out:
+
+bash
+Copy code
+newgrp docker
 
 
-1. permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.45/containers/json": dial unix /var/run/docker.sock: connect: permission denied
